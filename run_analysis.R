@@ -1,5 +1,4 @@
 #Link to the data for the project
-
 url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 
 #Downloading project data
@@ -12,21 +11,13 @@ unzip("./gcd_project/data.zip", exdir = "./gcd_project/project_data")
 
 #reading in data and and assigning data from each file to a variable
 setwd("./gcd_project/project_data")
-
 features <- read.table("UCI HAR Dataset/features.txt", col.names = c("num", "functions"))
-
 activities <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("code", "activities"))
-
 train_subjects <- read.table("UCI HAR Dataset/test/subject_test.txt", col.names = "subjects")
-
 test_subjects <- read.table("UCI HAR Dataset/train/subject_train.txt", col.names = "subjects")
-
 train_data <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = features$functions)
-
 test_data <- read.table("UCI HAR Dataset/test/X_test.txt", col.names = features$functions)
-
 train_data_labels <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = "code")
-
 test_data_labels <- read.table("UCI HAR Dataset/test/y_test.txt", col.names = "code")
 
 #merging training and test datasets to create one dataset
