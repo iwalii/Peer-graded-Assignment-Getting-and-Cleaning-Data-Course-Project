@@ -1,0 +1,48 @@
+This is the codebook of the run_analysis.R script written for tidying the data set "Smartphone-Based Recognition of Human Activities and Postural Transitions Data Set". For more info about the dataset here: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+			  
+
+1. Downloading data from a url and unzipping the zip file
+	- url: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+	- data set: Smartphone-Based Recognition of Human Activities and Postural Transitions Data Set
+
+2. Reading in data using data.table and assigning data from each file to a variable
+	- features: UCI HAR Dataset/features.txt (List of all features)
+	- activities: UCI HAR Dataset/activity_labels.txt (Links the class labels with their activity name) 
+	- train_subjects: UCI HAR Dataset/test/subject_test.txt (Training subjects)
+	- test_subjects: UCI HAR Dataset/test/subject_test.txt (Test subjects)
+	- train_data: UCI HAR Dataset/train/X_train.txt (Training set)
+	- test_data: UCI HAR Dataset/test/X_test.txt (Test set)
+	- train_data_labels: UCI HAR Dataset/train/y_train.txt (Training labels)
+	- test_data_labels: UCI HAR Dataset/test/y_test.txt (Test labels)
+
+3. Merging training and test datasets to create one dataset
+	- using bind_rows and bind_cols from dplyr to merge training and test datasets	
+	  and then saving the data in the following variables
+	- data: row_binding train_data and test_data
+	- subjects: row_binding train_subjects and train_subjects
+	- labels: row_binding train_data_labels and test_data_labels
+	- data_set: col_binding subjects, data and labels (#rows: 10299	#cols: 563)
+
+4. Extracting only the measurements on the mean and standard deviation for each measurement
+	- extracting only mean and std for each subject and activitiy using select from dplyr
+	- saving the selected data in mean_std_data
+
+5. Replacing the activity codes in the mean_std_data set with descriptive activity names as defined in the activities data set using gsub and mutate funcations
+         activity code    activities (replacements)
+  	 1           	  WALKING
+   	 2   		  WALKING_UPSTAIRS
+   	 3         	  WALKING_DOWNSTAIRS
+   	 4          	  SITTING
+   	 5           	  STANDING
+   	 6             	  LAYING
+
+6. Appropriately labeling the data set with descriptive variable names using gsub
+	 pattern          replacement
+  	 Code             activities
+   	 Acc  	          Accelerometer
+   	 Gyro        	  Gyroscope
+   	 Mag          	  Magnitude
+   	 BodyBody         Body
+   	 ^f (starting f)  Frequency
+	 ^t (starting t)  Time
+7. From the data set mean_std_data, creating a second, independent tidy data set with the average of each variable for each activity and each subject and saving it in a file named tidy_data.txt using group_by and summarize_all and write.table for saving it in a text file. dims of tidy_data: 180  88
